@@ -1,0 +1,65 @@
+#include "pathfinder.h"
+
+static void check_islands(char *island1, char *island2, char *dis, int nline) {
+    char *index = NULL;
+
+    if (mx_strcmp(island1, island2) == 0 && mx_atoi(dis) != 0) {
+        nline++;
+        index = mx_itoa(nline);
+        mx_printerr("error: line ");
+        mx_printerr(index);
+        mx_printerr(" isn't valid\n");
+        exit(-1);
+    }
+}
+
+static void linearr(char *line, char **island1, char **island2, char **dis) {
+    int i = 0;
+    char *str = line;
+
+    while(str[i] != '-') 
+        i++;
+    *island1 = mx_strndup(str, i);
+    str += i + 1;
+    i = 0;
+    while(str[i] != ',') 
+        i++;
+    *island2 = mx_strndup(str, i);
+    str += i + 1;
+    i = 0;
+    while(str[i] != '\0') 
+        i++;
+    *dis = mx_strndup(str, i);
+}
+
+static void fill_islands(char ***p, char **lines, int line) {
+    char **arr = *p;
+    char *island1 = NULL;
+    char *island2 = NULL;
+    char *dist = NULL;
+
+    while(lines[line]) {
+        linearr(lines[line], &island1, &island2, &dist);
+        check_islands(island1, island2, dist, line);
+        *arr = mx_strdup(island1);
+        arr++;
+        mx_strdel(&island1);
+        *arr = mx_strdup(island2);
+        arr++;
+        mx_strdel(&island2);
+        *arr = mx_strdup(dist);
+        line++;
+        arr++;
+        mx_strdel(&dist);
+    }
+    *arr = NULL;
+}
+
+void mx_create_arr(char **lines, char ***p) {
+    int line = 1;
+
+    while (lines[line])
+        line++;
+    *p = (char**)malloc((line * 3 + 1) * sizeof(char*));
+    fill_islands(&(*p), lines, 1);
+}
