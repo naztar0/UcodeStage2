@@ -7,7 +7,6 @@ char *mx_replace_substr(const char *str, const char *sub, const char *replace) {
 
 	if (!str || !sub || !replace || mx_strlen(str) <= mx_strlen(sub))
 		return NULL;
-
 	else {
 		for (int i = 0; i < len; i++, str++) {
 			if (!mx_strncmp((char *)str, (char *)sub, mx_strlen(sub))) {

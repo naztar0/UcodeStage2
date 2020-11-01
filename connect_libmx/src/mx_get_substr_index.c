@@ -3,7 +3,7 @@
 int mx_get_substr_index(const char *str, const char *sub) {
     int index = 0;
     int sublen = 0;
-
+    
     if (sub && str) {
         sublen = mx_strlen(sub);
         while (*str) {
@@ -12,6 +12,7 @@ int mx_get_substr_index(const char *str, const char *sub) {
             index++;
             str++;
         }
+
         return -1;
     }
     return -2;
